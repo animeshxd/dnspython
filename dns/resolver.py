@@ -27,6 +27,7 @@ import sys
 import threading
 import time
 import warnings
+import os
 
 import dns._ddr
 import dns.exception
@@ -942,6 +943,9 @@ class BaseResolver:
             if sys.platform == "win32":
                 self.read_registry()
             elif filename:
+                if filename[0] == '/':
+                    PREFIX = os.getenv('PREFIX', '')
+                    filename = PREFIX + filename
                 self.read_resolv_conf(filename)
 
     def reset(self) -> None:
